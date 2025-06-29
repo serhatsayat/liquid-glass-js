@@ -1,0 +1,54 @@
+{
+  "name": "liquid-glass",
+  "version": "1.0.0",
+  "description": "Apple-inspired glass morphism components for modern web applications",
+  "main": "liquid-glass-factory.js",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 8000",
+    "demo": "open index.html",
+    "demo-full": "open demo-modular.html"
+  },
+  "keywords": [
+    "glass",
+    "morphism",
+    "ui",
+    "components",
+    "javascript",
+    "css",
+    "apple",
+    "design",
+    "glassmorphism",
+    "backdrop-filter",
+    "modern",
+    "web",
+    "library"
+  ],
+  "author": "Serhat SAYAT <serhatsayyat@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/serhatsayat/liquid-glass-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serhatsayat/liquid-glass-js/issues"
+  },
+  "homepage": "https://github.com/serhatsayat/liquid-glass-js#readme",
+  "files": [
+    "components/",
+    "styles/",
+    "utils/",
+    "liquid-glass.css",
+    "liquid-glass.js",
+    "liquid-glass-factory.js",
+    "index.html",
+    "demo-modular.html",
+    "README.md"
+  ],
+  "browserslist": [
+    "Chrome >= 76",
+    "Firefox >= 103", 
+    "Safari >= 9",
+    "Edge >= 79"
+  ]
+}

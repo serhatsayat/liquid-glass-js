@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Glass - Modular Components Demo</title>
+    
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="liquid-glass.css">
+    <link rel="stylesheet" href="styles/button.css">
+    <link rel="stylesheet" href="styles/card.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .main-content {
+            padding: 8rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .buttons-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .component-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .code-example {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Glass Button Styles for Demo */
+        .demo-controls button,
+        .buttons-demo button {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: inherit;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .demo-controls button:hover,
+        .buttons-demo button:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .demo-controls button:active,
+        .buttons-demo button:active {
+            transform: translateY(0);
+        }
+
+        .demo-controls button:disabled,
+        .buttons-demo button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Special styling for specific button types */
+        .buttons-demo button[data-tooltip] {
+            position: relative;
+        }
+
+        /* Ripple animation for demo buttons */
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .grid { grid-template-columns: 1fr; }
+            .main-content { padding: 6rem 1rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation will be created dynamically -->
+    
+    <div class="main-content">
+        <div class="hero">
+            <h1>Liquid Glass Components</h1>
+            <p>Modular, functional components with Apple-inspired glass effects</p>
+        </div>
+
+        <!-- Button Components Section -->
+        <div class="section">
+            <h2>Button Components</h2>
+            <div class="buttons-demo">
+                <button id="btn-primary">Primary Button</button>
+                <button id="btn-secondary">Secondary Button</button>
+                <button id="btn-outline">Outline Button</button>
+                <button id="btn-ghost">Ghost Button</button>
+                <button id="btn-loading">Loading Button</button>
+                <button id="btn-disabled" disabled>Disabled Button</button>
+            </div>
+            
+            <div class="buttons-demo">
+                <button id="btn-small" data-size="small">Small</button>
+                <button id="btn-medium" data-size="medium">Medium</button>
+                <button id="btn-large" data-size="large">Large</button>
+            </div>
+            
+            <div class="buttons-demo">
+                <button id="btn-morphing">Morphing</button>
+                <button id="btn-floating">Floating</button>
+                <button id="btn-pulse">Pulsing</button>
+            </div>
+
+            <div class="demo-controls">
+                <button onclick="createDynamicButton()">Create Dynamic Button</button>
+                <button onclick="toggleButtonStates()">Toggle All States</button>
+            </div>
+        </div>
+
+        <!-- Card Components Section -->
+        <div class="section">
+            <h2>Card Components</h2>
+            <div class="grid">
+                <div id="card-basic">
+                    <h3>Basic Glass Card</h3>
+                    <p>Simple card with glass morphism effect and clean typography.</p>
+                </div>
+                
+                <div id="card-elevated">
+                    <h3>Elevated Card</h3>
+                    <p>Enhanced shadows and hover effects for better depth perception.</p>
+                </div>
+                
+                <div id="card-interactive">
+                    <h3>Interactive Card</h3>
+                    <p>Clickable card with ripple effects and custom interactions.</p>
+                </div>
+            </div>
+            
+            <div class="component-showcase">
+                <div id="card-with-header"></div>
+                <div id="card-with-footer"></div>
+                <div id="card-loading"></div>
+                <div id="card-morphing"></div>
+            </div>
+
+            <div class="demo-controls">
+                <button onclick="createDynamicCard()">Create Dynamic Card</button>
+                <button onclick="toggleCardAnimations()">Toggle Animations</button>
+                <button onclick="showCardLoading()">Show Loading State</button>
+            </div>
+        </div>
+
+        <!-- Modal Components Section -->
+        <div class="section">
+            <h2>Modal Components</h2>
+            <div class="buttons-demo">
+                <button onclick="showBasicModal()">Basic Modal</button>
+                <button onclick="showAlertModal()">Alert Modal</button>
+                <button onclick="showConfirmModal()">Confirm Modal</button>
+                <button onclick="showFormModal()">Form Modal</button>
+                <button onclick="showLargeModal()">Large Modal</button>
+            </div>
+        </div>
+
+        <!-- Tooltip Examples -->
+        <div class="section">
+            <h2>Tooltip Components</h2>
+            <div class="buttons-demo">
+                <button data-tooltip="This is a top tooltip" data-placement="top">Top Tooltip</button>
+                <button data-tooltip="This is a bottom tooltip" data-placement="bottom">Bottom Tooltip</button>
+                <button data-tooltip="This is a left tooltip" data-placement="left">Left Tooltip</button>
+                <button data-tooltip="This is a right tooltip" data-placement="right">Right Tooltip</button>
+                <button data-tooltip="Click tooltip" data-trigger="click">Click Tooltip</button>
+            </div>
+        </div>
+
+        <!-- Code Examples -->
+        <div class="section">
+            <h2>Usage Examples</h2>
+            
+            <h3>Creating Buttons</h3>
+            <div class="code-example">
+// Create a primary button
+const primaryBtn = LiquidGlass.createButton('Click Me', () => {
+    console.log('Button clicked!');
+}, { variant: 'primary' });
+
+// Create with factory method
+const { component: button } = LiquidGlass.create('button', element, {
+    variant: 'secondary',
+    size: 'large',
+    morphing: true
+});
+
+// Using static methods
+const floatingBtn = GlassButton.createFloating('Floating Button', handleClick);
+            </div>
+
+            <h3>Creating Cards</h3>
+            <div class="code-example">
+// Create a simple card
+const card = LiquidGlass.createCard('&lt;h3&gt;Title&lt;/h3&gt;&lt;p&gt;Content&lt;/p&gt;', {
+    variant: 'elevated',
+    clickable: true,
+    onClick: (e, card) => console.log('Card clicked')
+});
+
+// Card with header and footer
+const advancedCard = GlassCard.createWithHeader(
+    '&lt;h2&gt;Card Title&lt;/h2&gt;',
+    '&lt;p&gt;Card content goes here&lt;/p&gt;',
+    '&lt;button&gt;Action&lt;/button&gt;'
+);
+            </div>
+
+            <h3>Creating Modals</h3>
+            <div class="code-example">
+// Create an alert modal
+const alert = LiquidGlass.createAlertModal(
+    'Success!',
+    'Your action was completed successfully.',
+    () => console.log('OK clicked')
+);
+
+// Create a form modal
+const form = LiquidGlass.createFormModal(
+    'Contact Form',
+    [
+        { name: 'name', label: 'Name', required: true },
+        { name: 'email', label: 'Email', type: 'email', required: true },
+        { name: 'message', label: 'Message', type: 'textarea' }
+    ],
+    (data) => console.log('Form submitted:', data)
+);
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="utils/base-component.js"></script>
+    <script src="components/button.js"></script>
+    <script src="components/card.js"></script>
+    <script src="components/modal.js"></script>
+    <script src="components/navbar.js"></script>
+    <script src="components/tooltip.js"></script>
+    <script src="liquid-glass-factory.js"></script>
+
+    <script>
+        // Initialize the demo
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeDemo();
+        });
+
+        function initializeDemo() {
+            createNavbar();
+            initializeButtons();
+            initializeCards();
+            initializeTooltips();
+            
+            // Set global options
+            LiquidGlass.setGlobalOptions({
+                blur: 25,
+                borderRadius: 16,
+                animationDuration: 300
+            });
+        }
+
+        function createNavbar() {
+            const navbar = LiquidGlass.createNavbar([
+                { label: 'Home', href: '#', action: 'home' },
+                { label: 'Components', href: '#', action: 'components' },
+                { 
+                    label: 'Examples', 
+                    type: 'dropdown',
+                    items: [
+                        { label: 'Buttons', href: '#buttons' },
+                        { label: 'Cards', href: '#cards' },
+                        { label: 'Modals', href: '#modals' }
+                    ]
+                },
+                { label: 'Docs', href: '#', action: 'docs' }
+            ], {
+                brand: 'Liquid Glass',
+                position: 'fixed',
+                scrollEffect: true,
+                onItemClick: (item, index, e) => {
+                    console.log('Nav item clicked:', item.label, item);
+                    
+                    // Handle different item types
+                    if (item.action === 'home') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else if (item.action === 'components') {
+                        const section = document.querySelector('.section');
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    } else if (item.action === 'docs') {
+                        showNotification('Documentation coming soon!');
+                    } else if (item.href && item.href !== '#') {
+                        // Handle dropdown items or direct links
+                        if (item.href.startsWith('#')) {
+                            // Scroll to section
+                            const targetId = item.href.substring(1);
+                            const sections = document.querySelectorAll('.section');
+                            let targetSection = null;
+                            
+                            sections.forEach(section => {
+                                const h2 = section.querySelector('h2');
+                                if (h2 && h2.textContent.toLowerCase().includes(targetId)) {
+                                    targetSection = section;
+                                }
+                            });
+                            
+                            if (targetSection) {
+                                targetSection.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }
+                    }
+                }
+            });
+            
+            document.body.appendChild(navbar.element);
+        }
+
+        function initializeButtons() {
+            // Primary button
+            const primaryBtn = new GlassButton(document.getElementById('btn-primary'), {
+                variant: 'primary',
+                onClick: () => showNotification('Primary button clicked!')
+            });
+
+            // Secondary button  
+            const secondaryBtn = new GlassButton(document.getElementById('btn-secondary'), {
+                variant: 'secondary',
+                onClick: () => showNotification('Secondary button clicked!')
+            });
+
+            // Outline button
+            const outlineBtn = new GlassButton(document.getElementById('btn-outline'), {
+                variant: 'outline',
+                onClick: () => showNotification('Outline button clicked!')
+            });
+
+            // Ghost button
+            const ghostBtn = new GlassButton(document.getElementById('btn-ghost'), {
+                variant: 'ghost',
+                onClick: () => showNotification('Ghost button clicked!')
+            });
+
+            // Loading button
+            const loadingBtn = new GlassButton(document.getElementById('btn-loading'), {
+                loading: true
+            });
+
+            // Disabled button
+            const disabledBtn = new GlassButton(document.getElementById('btn-disabled'), {
+                disabled: true
+            });
+
+            // Size variants
+            ['small', 'medium', 'large'].forEach(size => {
+                const btn = document.getElementById(`btn-${size}`);
+                if (btn) {
+                    new GlassButton(btn, {
+                        size: size,
+                        onClick: () => showNotification(`${size} button clicked!`)
+                    });
+                }
+            });
+
+            // Animation variants
+            new GlassButton(document.getElementById('btn-morphing'), {
+                morphing: true,
+                onClick: () => showNotification('Morphing button clicked!')
+            });
+
+            new GlassButton(document.getElementById('btn-floating'), {
+                floating: true,
+                onClick: () => showNotification('Floating button clicked!')
+            });
+
+            new GlassButton(document.getElementById('btn-pulse'), {
+                pulse: true,
+                onClick: () => showNotification('Pulsing button clicked!')
+            });
+
+            // Initialize all demo control buttons and modal buttons with glass effect
+            initializeDemoButtons();
+        }
+
+        function initializeDemoButtons() {
+            // Get all buttons in demo-controls and buttons-demo sections
+            const demoButtons = document.querySelectorAll('.demo-controls button, .buttons-demo button');
+            
+            demoButtons.forEach(button => {
+                // Skip if already initialized by GlassButton component
+                if (button.classList.contains('liquid-glass-button')) return;
+                
+                // Apply glass button styling without component if it doesn't have specific handler
+                if (!button.id || !button.id.startsWith('btn-')) {
+                    button.style.cssText += `
+                        position: relative;
+                        overflow: hidden;
+                    `;
+                    
+                    // Add ripple effect
+                    button.addEventListener('click', function(e) {
+                        const rect = this.getBoundingClientRect();
+                        const size = Math.max(rect.width, rect.height);
+                        const x = e.clientX - rect.left - size / 2;
+                        const y = e.clientY - rect.top - size / 2;
+
+                        const ripple = document.createElement('div');
+                        ripple.style.cssText = `
+                            position: absolute;
+                            width: ${size}px;
+                            height: ${size}px;
+                            left: ${x}px;
+                            top: ${y}px;
+                            border-radius: 50%;
+                            background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+                            pointer-events: none;
+                            animation: ripple 600ms ease-out forwards;
+                            transform: scale(0);
+                        `;
+
+                        this.appendChild(ripple);
+
+                        setTimeout(() => {
+                            ripple.remove();
+                        }, 600);
+                    });
+                }
+            });
+        }
+
+        function initializeCards() {
+            // Basic card
+            new GlassCard(document.getElementById('card-basic'), {
+                variant: 'default'
+            });
+
+            // Elevated card
+            new GlassCard(document.getElementById('card-elevated'), {
+                variant: 'elevated'
+            });
+
+            // Interactive card
+            new GlassCard(document.getElementById('card-interactive'), {
+                clickable: true,
+                onClick: () => showNotification('Interactive card clicked!')
+            });
+
+            // Card with header
+            const headerCard = GlassCard.createWithHeader(
+                '<h3>Card with Header</h3>',
+                '<p>This card has a header section with a border separator.</p>'
+            );
+            document.getElementById('card-with-header').appendChild(headerCard.element);
+
+            // Card with footer
+            const footerCard = GlassCard.createWithHeader(
+                '<h3>Card with Footer</h3>',
+                '<p>This card includes both header and footer sections.</p>',
+                '<button onclick="showNotification(\'Footer action!\')">Action</button>'
+            );
+            document.getElementById('card-with-footer').appendChild(footerCard.element);
+
+            // Loading card
+            const loadingCard = GlassCard.create({ loading: true });
+            loadingCard.setContent('<h3>Loading Card</h3><p>Content will appear here...</p>');
+            document.getElementById('card-loading').appendChild(loadingCard.element);
+
+            // Morphing card
+            const morphingCard = GlassCard.create({ morphing: true });
+            morphingCard.setContent('<h3>Morphing Card</h3><p>This card changes shape continuously.</p>');
+            document.getElementById('card-morphing').appendChild(morphingCard.element);
+        }
+
+        function initializeTooltips() {
+            // Tooltips are automatically initialized by the factory
+            GlassTooltip.initializeAll('[data-tooltip]');
+        }
+
+        // Demo functions
+        function createDynamicButton() {
+            const container = document.querySelector('.buttons-demo');
+            const button = LiquidGlass.createButton('Dynamic', () => {
+                showNotification('Dynamic button clicked!');
+                button.element.remove();
+            }, { 
+                variant: 'primary',
+                morphing: true 
+            });
+            
+            container.appendChild(button.element);
+        }
+
+        function toggleButtonStates() {
+            const buttons = LiquidGlass.findByType('button');
+            buttons.forEach(button => {
+                if (button.options && !button.options.disabled) {
+                    const isLoading = button.options.loading;
+                    button.setLoading(!isLoading);
+                }
+            });
+        }
+
+        function createDynamicCard() {
+            const container = document.querySelector('.component-showcase');
+            const card = LiquidGlass.createCard(
+                '<h3>Dynamic Card</h3><p>Created at ' + new Date().toLocaleTimeString() + '</p>',
+                { 
+                    variant: 'elevated',
+                    floating: true,
+                    clickable: true,
+                    onClick: () => card.element.remove()
+                }
+            );
+            
+            container.appendChild(card.element);
+        }
+
+        function toggleCardAnimations() {
+            const cards = LiquidGlass.findByType('card');
+            cards.forEach(card => {
+                card.element.classList.toggle('liquid-glass-floating');
+            });
+        }
+
+        function showCardLoading() {
+            const cards = LiquidGlass.findByType('card');
+            cards.forEach(card => {
+                if (card.setLoading) {
+                    card.setLoading(true);
+                    setTimeout(() => card.setLoading(false), 2000);
+                }
+            });
+        }
+
+        // Modal functions
+        function showBasicModal() {
+            const modal = GlassModal.create({
+                header: 'Basic Modal',
+                onShow: () => console.log('Modal shown'),
+                onHide: () => console.log('Modal hidden')
+            });
+            
+            modal.setContent(`
+                <h3>Welcome to Liquid Glass</h3>
+                <p>This is a basic modal with glass morphism effects. The backdrop blur creates depth while maintaining visual hierarchy.</p>
+                <p>Click outside or press ESC to close.</p>
+            `);
+            
+            modal.show();
+        }
+
+        function showAlertModal() {
+            const alert = LiquidGlass.createAlertModal(
+                'Success!',
+                'Your action has been completed successfully.',
+                () => showNotification('Alert confirmed!')
+            );
+            alert.show();
+        }
+
+        function showConfirmModal() {
+            const confirm = LiquidGlass.createConfirmModal(
+                'Confirm Action',
+                'Are you sure you want to continue with this action?',
+                () => showNotification('Action confirmed!'),
+                () => showNotification('Action cancelled!')
+            );
+            confirm.show();
+        }
+
+        function showFormModal() {
+            const form = LiquidGlass.createFormModal(
+                'Contact Form',
+                [
+                    { name: 'name', label: 'Full Name', required: true },
+                    { name: 'email', label: 'Email Address', type: 'email', required: true },
+                    { name: 'phone', label: 'Phone Number', type: 'tel' },
+                    { name: 'message', label: 'Message', required: true }
+                ],
+                (data) => {
+                    showNotification('Form submitted: ' + JSON.stringify(data));
+                }
+            );
+            form.show();
+        }
+
+        function showLargeModal() {
+            const modal = GlassModal.create({
+                size: 'large',
+                header: 'Large Modal',
+                scrollable: true
+            });
+            
+            modal.setContent(`
+                <h3>Large Modal with Scrolling</h3>
+                <p>This modal demonstrates a larger size variant with scrollable content.</p>
+                ${Array(20).fill().map((_, i) => `<p>Content paragraph ${i + 1} with enough text to demonstrate scrolling behavior when the content exceeds the modal height.</p>`).join('')}
+            `);
+            
+            modal.show();
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                z-index: 10001;
+                backdrop-filter: blur(10px);
+                animation: slideIn 300ms ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 300ms ease forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Add CSS animations for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

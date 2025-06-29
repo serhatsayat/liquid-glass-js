@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Glass - Apple-Inspired Glass Effects Library</title>
+    
+    <!-- Main Library Styles -->
+    <link rel="stylesheet" href="liquid-glass.css">
+    <link rel="stylesheet" href="styles/button.css">
+    <link rel="stylesheet" href="styles/card.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .main-content {
+            padding: 8rem 2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 6rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #fff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 6rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-description {
+            text-align: center;
+            font-size: 1.125rem;
+            opacity: 0.8;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Demo Cards */
+        .demo-card {
+            padding: 2.5rem;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 20px;
+            backdrop-filter: blur(25px);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 300ms ease;
+        }
+
+        .demo-card:hover::before {
+            opacity: 1;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .demo-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .demo-card p {
+            opacity: 0.85;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Component Showcase */
+        .component-showcase {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+
+        .showcase-item {
+            padding: 1.5rem;
+            min-width: 200px;
+            text-align: center;
+            border-radius: 16px;
+        }
+
+        /* Button Demos */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        /* Advanced Features */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 300ms ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #e0e0e0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #fff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        /* Interactive Elements */
+        .interactive-demo {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .demo-controls button {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .demo-controls button:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Button Styles */
+        .hero-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hero-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-btn.secondary {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.05) 100%);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .hero-btn.outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-btn.outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Code Preview */
+        .code-preview {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-preview::before {
+            content: attr(data-language);
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 6rem 1rem 2rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .component-showcase {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .demo-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 600ms ease-out;
+        }
+
+        .stagger-1 { animation-delay: 100ms; }
+        .stagger-2 { animation-delay: 200ms; }
+        .stagger-3 { animation-delay: 300ms; }
+        .stagger-4 { animation-delay: 400ms; }
+    </style>
+</head>
+<body>
+    <!-- Navigation will be created dynamically -->
+    
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="hero fade-in">
+            <h1>Liquid Glass</h1>
+            <p class="subtitle">
+                Premium Apple-inspired glass morphism components for modern web applications. 
+                Create stunning interfaces with backdrop blur, transparency, and fluid animations.
+            </p>
+            <div class="hero-actions">
+                <button id="hero-explore" class="hero-btn">Explore Components</button>
+                <button id="hero-docs" class="hero-btn secondary">View Documentation</button>
+                <button id="hero-github" class="hero-btn outline">GitHub</button>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats fade-in stagger-1">
+            <div class="stat-item">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Components</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Dependencies</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">15KB</div>
+                <div class="stat-label">Minified Size</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Pure JavaScript</div>
+            </div>
+        </section>
+
+        <!-- Core Components Section -->
+        <section class="section fade-in stagger-2">
+            <h2 class="section-title">Core Components</h2>
+            <p class="section-description">
+                Each component is built with modularity and functionality in mind, 
+                offering both simple usage and advanced customization options.
+            </p>
+            
+            <div class="grid">
+                <div class="demo-card" id="card-buttons">
+                    <div class="feature-icon">🔘</div>
+                    <h3>Glass Buttons</h3>
+                    <p>Interactive buttons with ripple effects, multiple variants, loading states, and smooth animations.</p>
+                </div>
+
+                <div class="demo-card" id="card-cards">
+                    <div class="feature-icon">🗃️</div>
+                    <h3>Glass Cards</h3>
+                    <p>Flexible card containers with headers, footers, images, and various layout options.</p>
+                </div>
+
+                <div class="demo-card" id="card-modals">
+                    <div class="feature-icon">🪟</div>
+                    <h3>Glass Modals</h3>
+                    <p>Beautiful modal dialogs with backdrop blur, animations, and customizable content areas.</p>
+                </div>
+
+                <div class="demo-card" id="card-navbar">
+                    <div class="feature-icon">🧭</div>
+                    <h3>Glass Navbar</h3>
+                    <p>Responsive navigation bars with scroll effects, mobile menus, and dropdown support.</p>
+                </div>
+
+                <div class="demo-card" id="card-tooltips">
+                    <div class="feature-icon">💬</div>
+                    <h3>Glass Tooltips</h3>
+                    <p>Smart tooltips with auto-positioning, multiple triggers, and interactive content support.</p>
+                </div>
+
+                <div class="demo-card" id="card-factory">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Component Factory</h3>
+                    <p>Centralized component management with auto-initialization and global configuration.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Demo Section -->
+        <section class="section fade-in stagger-3">
+            <h2 class="section-title">Interactive Demo</h2>
+            <p class="section-description">
+                Experience the glass effects in action. Click and interact with the components below.
+            </p>
+
+            <div class="interactive-demo">
+                <h3 style="margin-bottom: 2rem;">Button Variants</h3>
+                <div class="button-grid">
+                    <button id="btn-primary">Primary</button>
+                    <button id="btn-secondary">Secondary</button>
+                    <button id="btn-outline">Outline</button>
+                    <button id="btn-ghost">Ghost</button>
+                    <button id="btn-loading">Loading</button>
+                    <button id="btn-disabled" disabled>Disabled</button>
+                </div>
+
+                <div class="demo-controls">
+                    <button onclick="toggleAnimations()">Toggle Animations</button>
+                    <button onclick="showDemoModal()">Show Modal</button>
+                    <button onclick="createDynamicComponent()">Create Component</button>
+                </div>
+            </div>
+
+            <div class="component-showcase">
+                <div class="showcase-item" id="showcase-morphing">
+                    <h4>Morphing Effect</h4>
+                    <p>Shape-shifting animations</p>
+                </div>
+                <div class="showcase-item" id="showcase-floating">
+                    <h4>Floating Effect</h4>
+                    <p>Gentle hover animations</p>
+                </div>
+                <div class="showcase-item" id="showcase-pulse">
+                    <h4>Pulse Effect</h4>
+                    <p>Rhythmic glow effects</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section fade-in stagger-4">
+            <h2 class="section-title">Key Features</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Apple-Inspired Design</h3>
+                    <p>Authentic glass morphism effects with backdrop blur, transparency, and subtle borders that match Apple's design language.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Performance Optimized</h3>
+                    <p>Smooth 60fps animations with hardware acceleration and efficient rendering for the best user experience.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧩</div>
+                    <h3>Modular Architecture</h3>
+                    <p>Each component is self-contained and can be used independently or as part of the complete system.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Responsive Design</h3>
+                    <p>All components adapt seamlessly to different screen sizes and support touch interactions on mobile devices.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">♿</div>
+                    <h3>Accessibility First</h3>
+                    <p>Built with ARIA support, keyboard navigation, and reduced motion preferences for inclusive design.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Developer Friendly</h3>
+                    <p>Simple API, TypeScript support, comprehensive documentation, and extensive customization options.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Example Section -->
+        <section class="section">
+            <h2 class="section-title">Quick Start</h2>
+            
+            <div class="code-preview" data-language="HTML">
+&lt;!-- Include the library --&gt;
+&lt;link rel="stylesheet" href="liquid-glass.css"&gt;
+&lt;script src="liquid-glass-factory.js"&gt;&lt;/script&gt;
+
+&lt;!-- Create components with data attributes --&gt;
+&lt;button data-glass-button data-variant="primary"&gt;Auto Button&lt;/button&gt;
+&lt;div data-glass-card data-variant="elevated"&gt;Auto Card&lt;/div&gt;
+            </div>
+
+            <div class="code-preview" data-language="JavaScript">
+// Create components programmatically
+const button = LiquidGlass.createButton('Click Me', () => {
+    console.log('Button clicked!');
+}, { variant: 'primary', morphing: true });
+
+// Use factory methods
+const modal = LiquidGlass.createAlertModal(
+    'Success!', 
+    'Your action completed successfully.'
+);
+
+// Advanced configuration
+LiquidGlass.setGlobalOptions({
+    blur: 30,
+    borderRadius: 20,
+    animationDuration: 400
+});
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="section">
+            <div class="interactive-demo">
+                <h2>Ready to Get Started?</h2>
+                <p style="margin: 1rem 0 2rem; opacity: 0.9;">
+                    Download Liquid Glass and start creating beautiful glass interfaces today.
+                </p>
+                <div class="demo-controls">
+                    <button onclick="window.open('demo-modular.html')" id="view-full-demo">
+                        View Full Demo
+                    </button>
+                    <button onclick="downloadLibrary()" id="download-btn">
+                        Download Library
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="utils/base-component.js"></script>
+    <script src="components/button.js"></script>
+    <script src="components/card.js"></script>
+    <script src="components/modal.js"></script>
+    <script src="components/navbar.js"></script>
+    <script src="components/tooltip.js"></script>
+    <script src="liquid-glass-factory.js"></script>
+
+    <script>
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeApp();
+            addScrollAnimations();
+        });
+
+        function initializeApp() {
+            createNavigation();
+            initializeComponents();
+            setupEventHandlers();
+            
+            // Set global options
+            LiquidGlass.setGlobalOptions({
+                blur: 25,
+                borderRadius: 20,
+                animationDuration: 400,
+                scale: 1.05
+            });
+        }
+
+        function createNavigation() {
+            const navbar = LiquidGlass.createNavbar([
+                { label: 'Home', href: '#', action: 'home' },
+                { label: 'Components', href: '#components', action: 'components' },
+                { 
+                    label: 'Examples', 
+                    type: 'dropdown',
+                    items: [
+                        { label: 'Buttons', href: '#buttons' },
+                        { label: 'Cards', href: '#cards' },
+                        { label: 'Modals', href: '#modals' },
+                        { label: 'Full Demo', href: 'demo-modular.html' }
+                    ]
+                },
+                { label: 'GitHub', href: '#', action: 'github' }
+            ], {
+                brand: 'Liquid Glass',
+                position: 'fixed',
+                scrollEffect: true,
+                onItemClick: handleNavClick
+            });
+            
+            document.body.appendChild(navbar.element);
+        }
+
+        function initializeComponents() {
+            // Hero buttons
+            new GlassButton(document.getElementById('hero-explore'), {
+                variant: 'primary',
+                size: 'large',
+                onClick: () => scrollToSection('components')
+            });
+
+            new GlassButton(document.getElementById('hero-docs'), {
+                variant: 'secondary',
+                size: 'large',
+                onClick: () => window.open('demo-modular.html')
+            });
+
+            new GlassButton(document.getElementById('hero-github'), {
+                variant: 'outline',
+                size: 'large',
+                onClick: () => showNotification('GitHub repository coming soon!')
+            });
+
+            // Demo buttons
+            const buttonConfigs = [
+                { id: 'btn-primary', variant: 'primary' },
+                { id: 'btn-secondary', variant: 'secondary' },
+                { id: 'btn-outline', variant: 'outline' },
+                { id: 'btn-ghost', variant: 'ghost' },
+                { id: 'btn-loading', loading: true },
+                { id: 'btn-disabled', disabled: true }
+            ];
+
+            buttonConfigs.forEach(config => {
+                const element = document.getElementById(config.id);
+                if (element) {
+                    new GlassButton(element, {
+                        ...config,
+                        onClick: () => showNotification(`${config.variant || config.id} button clicked!`)
+                    });
+                }
+            });
+
+            // Demo cards
+            const cardIds = ['card-buttons', 'card-cards', 'card-modals', 'card-navbar', 'card-tooltips', 'card-factory'];
+            cardIds.forEach((id, index) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    new GlassCard(element, {
+                        variant: 'elevated',
+                        clickable: true,
+                        onClick: () => showComponentInfo(id)
+                    });
+                }
+            });
+
+            // Showcase items
+            new GlassCard(document.getElementById('showcase-morphing'), { morphing: true });
+            new GlassCard(document.getElementById('showcase-floating'), { floating: true });
+            new GlassCard(document.getElementById('showcase-pulse'), { pulse: true });
+
+            // Action buttons
+            new GlassButton(document.getElementById('view-full-demo'), {
+                variant: 'primary',
+                size: 'large'
+            });
+
+            new GlassButton(document.getElementById('download-btn'), {
+                variant: 'outline',
+                size: 'large'
+            });
+        }
+
+        function setupEventHandlers() {
+            // Add tooltips to feature cards
+            document.querySelectorAll('.feature-card').forEach(card => {
+                const title = card.querySelector('h3').textContent;
+                new GlassTooltip(card, {
+                    content: `Learn more about ${title}`,
+                    placement: 'top'
+                });
+            });
+        }
+
+        function addScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.section, .demo-card, .feature-card').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Event Handlers
+        function handleNavClick(item, index, e) {
+            console.log('Navigation clicked:', item.label, item);
+            
+            // Handle different item types
+            if (item.action === 'github') {
+                showNotification('GitHub repository coming soon!');
+            } else if (item.action === 'components') {
+                scrollToSection('components');
+            } else if (item.action === 'home') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (item.href && item.href !== '#') {
+                // Handle dropdown items or direct links
+                if (item.href.startsWith('http')) {
+                    window.open(item.href, '_blank');
+                } else if (item.href === 'demo-modular.html') {
+                    window.open('demo-modular.html', '_blank');
+                } else {
+                    // Internal anchor links
+                    const target = document.querySelector(item.href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            }
+        }
+
+        function showComponentInfo(componentId) {
+            const info = {
+                'card-buttons': 'Interactive glass buttons with multiple variants, animations, and states.',
+                'card-cards': 'Flexible card containers perfect for content display and organization.',
+                'card-modals': 'Beautiful modal dialogs with backdrop blur and smooth animations.',
+                'card-navbar': 'Responsive navigation components with scroll effects and mobile support.',
+                'card-tooltips': 'Smart tooltips with auto-positioning and interactive content.',
+                'card-factory': 'Centralized component management system for easy initialization.'
+            };
+
+            const modal = LiquidGlass.createAlertModal(
+                componentId.replace('card-', '').replace('-', ' ').toUpperCase(),
+                info[componentId] || 'Component information',
+                () => console.log('Component info closed')
+            );
+            
+            modal.show();
+        }
+
+        function toggleAnimations() {
+            const components = LiquidGlass.findByType('card');
+            components.forEach(card => {
+                card.element.classList.toggle('liquid-glass-floating');
+            });
+            showNotification('Animations toggled!');
+        }
+
+        function showDemoModal() {
+            const modal = GlassModal.create({
+                header: 'Demo Modal',
+                size: 'medium'
+            });
+            
+            modal.setContent(`
+                <h3>Welcome to Liquid Glass</h3>
+                <p>This is a demonstration of our glass modal component with beautiful backdrop blur effects.</p>
+                <p>The modal supports:</p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Custom headers and footers</li>
+                    <li>Multiple size variants</li>
+                    <li>Keyboard navigation (ESC to close)</li>
+                    <li>Click-outside to close</li>
+                    <li>Smooth animations</li>
+                </ul>
+            `);
+            
+            modal.show();
+        }
+
+        function createDynamicComponent() {
+            const types = ['button', 'card'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            
+            if (type === 'button') {
+                const button = LiquidGlass.createButton('Dynamic Button', () => {
+                    showNotification('Dynamic button clicked!');
+                    button.element.remove();
+                }, { 
+                    variant: 'primary',
+                    floating: true 
+                });
+                
+                document.querySelector('.demo-controls').appendChild(button.element);
+            } else {
+                const card = LiquidGlass.createCard(
+                    `<h4>Dynamic Card</h4><p>Created at ${new Date().toLocaleTimeString()}</p>`,
+                    { 
+                        variant: 'elevated',
+                        morphing: true,
+                        clickable: true,
+                        onClick: () => card.element.remove()
+                    }
+                );
+                
+                document.querySelector('.component-showcase').appendChild(card.element);
+            }
+            
+            showNotification(`Dynamic ${type} created!`);
+        }
+
+        function downloadLibrary() {
+            showNotification('Download feature coming soon! Check the GitHub repository.');
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId) || document.querySelector(`.${sectionId}`);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                z-index: 10001;
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                animation: slideInRight 400ms cubic-bezier(0.4, 0, 0.2, 1);
+                max-width: 300px;
+                font-size: 0.9rem;
+                font-weight: 500;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                setTimeout(() => notification.remove(), 400);
+            }, 3000);
+        }
+
+        // Add notification animations
+        const notificationStyles = document.createElement('style');
+        notificationStyles.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(notificationStyles);
+    </script>
+</body>
+</html>
